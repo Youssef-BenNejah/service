@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Services.StudentService;
+import com.example.demo.entities.Grade;
 import com.example.demo.entities.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,12 @@ public class StudentController {
 
     @PostMapping
     public Student createStudent(@RequestBody Student student) {
+
+        if (student.getGrades() != null) {
+            for (Grade grade : student.getGrades()) {
+                grade.setStudent(student);
+            }
+        }
         return studentService.createOrUpdateStudent(student);
     }
     @PutMapping("/{id}")
